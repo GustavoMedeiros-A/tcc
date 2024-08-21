@@ -16,7 +16,11 @@ interface IOptions {
   useIndexes: boolean;
 }
 
-const SearchOptions: React.FC = () => {
+interface SearchOptionsProps {
+  applyChart: () => void;
+}
+
+const SearchOptions: React.FC<SearchOptionsProps> = ({ applyChart }) => {
   const [options, setOptions] = useState<IOptions>({
     dataSize: "small",
     joinLookup: false,
@@ -42,6 +46,7 @@ const SearchOptions: React.FC = () => {
     }));
   };
   const handleSubmit = () => {
+    applyChart();
     console.log("Opções selecionadas:", options);
     // Aqui você faria a request para o endpoint
   };

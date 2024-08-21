@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchOptions from "../components/SearchOptions";
 import DescriptionPanel from "../components/DescriptionPanel";
+import PerformanceCharts from "../components/PerformanceCharts";
 
 const MainScreen: React.FC = () => {
+  const [showCharts, setShowCharts] = useState(false);
+
+  const handleApplyTest = () => {
+    setShowCharts(true);
+  };
+
   return (
-    <div style={{ display: "flex", height: "100vh", backgroundColor: "#111" }}>
+    <div
+      style={{ display: "flex", minHeight: "100vh", backgroundColor: "#111" }}
+    >
       <aside
         style={{
           width: "250px",
@@ -40,9 +49,24 @@ const MainScreen: React.FC = () => {
             justifyContent: "space-around",
           }}
         >
-          <SearchOptions />
+          <SearchOptions applyChart={handleApplyTest} />
           <DescriptionPanel />
         </div>
+
+        {showCharts && (
+          <div
+            style={{
+              backgroundColor: "#222",
+              padding: "20px",
+              borderRadius: "10px",
+              display: "flex",
+              justifyContent: "space-around",
+              marginTop: "20px",
+            }}
+          >
+            <PerformanceCharts />
+          </div>
+        )}
       </main>
     </div>
   );
