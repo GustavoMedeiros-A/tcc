@@ -21,11 +21,6 @@ const createMongooseFeatures = (
       schema: ProductSchema,
       collection: `${collectionPrefix}Products`,
     },
-    // {
-    //   name: `${namePrefix}OrderItem`,
-    //   schema: OrderItemSchema,
-    //   collection: `${collectionPrefix}OrderItem`,
-    // },
   ];
 };
 
