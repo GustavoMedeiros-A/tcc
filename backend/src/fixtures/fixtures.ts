@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from 'src/app.module';
 import { MongoSeederService } from './mongo-seeder.service';
 import { PostgresSeederService } from './postgres-seeder.service';
+// import { PostgresSeederService } from './postgres-seeder.service';
 
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule);
@@ -15,7 +16,7 @@ async function bootstrap() {
   // await mongoSeeder.seedData('large');
 
   //   console.log('Seeding PostgreSQL...');
-  await postgresSeeder.seedData('small'); // Implementar similar ao MongoSeeder
+  await postgresSeeder.seedData('small');
   //   await postgresSeeder.seedData('medium');
   //   await postgresSeeder.seedData('large');
 

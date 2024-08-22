@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order } from '../modules/mongodb/schemas/order.schema';
 import { Product } from '../modules/mongodb/schemas/product.schema';
+import { get2024RandomDate, getRandomQuantity } from './utils';
 
 @Injectable()
 export class MongoSeederService {
@@ -58,7 +59,8 @@ export class MongoSeederService {
     await orderModel.deleteMany({});
     await productModel.deleteMany({});
     const products = [];
-    for (let i = 0; i < 1000; i++) {
+    const productCount = Math.floor(recordCount * 0.1);
+    for (let i = 0; i < productCount; i++) {
       const product = new productModel({
         name: `Product ${i + 1}`,
         price: Math.floor(Math.random() * 1000) + 1,
@@ -73,23 +75,16 @@ export class MongoSeederService {
       for (let j = 0; j < itemCount; j++) {
         orderItems.push({
           product: products[Math.floor(Math.random() * products.length)],
-          quantity: this.get2024RandomDate(),
+          quantity: getRandomQuantity,
         });
       }
 
       const order = new orderModel({
         client: `Client ${i + 1}`,
         itens: orderItems,
+        date: get2024RandomDate(),
       });
       await order.save();
     }
-  }
-
-  private get2024RandomDate(): Date {
-    const start = new Date(2024, 0, 1);
-    const end = new Date(2024, 11, 31);
-    return new Date(
-      start.getTime() + Math.random() * (end.getTime() - start.getTime()),
-    );
   }
 }

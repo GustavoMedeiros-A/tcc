@@ -1,29 +1,46 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { createTypeOrmEntities } from './createTypeOrmEntities';
-// import { PostgresSeederService } from 'src/fixtures/postgres-seeder.service';
+import {
+  SmallOrder,
+  SmallOrderItem,
+  SmallProduct,
+} from './entities/small.entities';
+import {
+  MediumOrder,
+  MediumOrderItem,
+  MediumProduct,
+} from './entities/medium.entities';
+import { PostgresSeederService } from 'src/fixtures/postgres-seeder.service';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'password',
-      database: 'tcc-comparation',
+      port: 5433,
+      username: 'admin',
+      password: 'admin',
+      database: 'comparation',
       synchronize: true,
+      logging: true,
       entities: [
-        ...createTypeOrmEntities('small'),
-        ...createTypeOrmEntities('medium'),
-        ...createTypeOrmEntities('large'),
+        SmallOrder,
+        SmallOrderItem,
+        SmallProduct,
+        MediumOrder,
+        MediumOrderItem,
+        MediumProduct,
       ],
     }),
-    TypeOrmModule.forFeature(createTypeOrmEntities('small'), 'smallDS'),
-    TypeOrmModule.forFeature(createTypeOrmEntities('medium'), 'mediumDS'),
-    TypeOrmModule.forFeature(createTypeOrmEntities('large'), 'largeDS'),
+    TypeOrmModule.forFeature([
+      SmallOrder,
+      SmallOrderItem,
+      SmallProduct,
+      MediumOrder,
+      MediumOrderItem,
+      MediumProduct,
+    ]),
   ],
-  // providers: [PostgresSeederService],
-  // exports: [PostgresSeederService],
+  providers: [PostgresSeederService],
 })
 export class PostgresModule {}
