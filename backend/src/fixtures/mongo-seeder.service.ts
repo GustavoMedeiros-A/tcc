@@ -75,7 +75,7 @@ export class MongoSeederService {
       for (let j = 0; j < itemCount; j++) {
         orderItems.push({
           product: products[Math.floor(Math.random() * products.length)],
-          quantity: getRandomQuantity,
+          quantity: getRandomQuantity(),
         });
       }
 

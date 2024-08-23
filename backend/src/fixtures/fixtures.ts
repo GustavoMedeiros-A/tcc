@@ -11,7 +11,7 @@ async function bootstrap() {
   const postgresSeeder = app.get(PostgresSeederService);
 
   console.log('Seeding MongoDB...');
-  // await mongoSeeder.seedData('small');
+  await mongoSeeder.seedData('small');
   // await mongoSeeder.seedData('medium');
   // await mongoSeeder.seedData('large');
 

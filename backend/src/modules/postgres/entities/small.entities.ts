@@ -22,15 +22,3 @@ export class SmallOrderItem extends BaseOrderItemEntity {
   @ManyToOne(() => SmallOrder, (order) => order.items)
   order: SmallOrder;
 }
-
-// @Entity({ name: 'medium_order' })
-// export class MediumOrder extends BaseOrderEntity {
-//   @OneToMany(() => MediumOrderItem, (orderItem) => orderItem.order)
-//   items: MediumOrderItem[];
-// }
-
-// @Entity({ name: 'large_order' })
-// export class LargeOrder extends BaseOrderEntity {
-//   @OneToMany(() => LargeOrderItem, (orderItem) => orderItem.order)
-//   items: LargeOrderItem[];
-// }

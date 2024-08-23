@@ -11,7 +11,7 @@ import {
   SmallProduct,
 } from 'src/modules/postgres/entities/small.entities';
 import { Repository } from 'typeorm';
-import { get2024RandomDate } from './utils';
+import { get2024RandomDate, getRandomQuantity } from './utils';
 
 @Injectable()
 export class PostgresSeederService {
@@ -132,7 +132,7 @@ export class PostgresSeederService {
       for (let j = 0; j < itemCount; j++) {
         const orderItem = orderItemRepository.create({
           product: products[Math.floor(Math.random() * products.length)],
-          quantity: Math.floor(Math.random() * 100) + 1,
+          quantity: getRandomQuantity(),
         });
         await orderItemRepository.save(orderItem);
         orderItems.push(orderItem);

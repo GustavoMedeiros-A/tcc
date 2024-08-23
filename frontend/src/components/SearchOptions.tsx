@@ -12,7 +12,7 @@ interface IOptions {
   filter: boolean;
   filterDate: Date | null;
   order: boolean;
-  orderType: string;
+  orderType: "ASC" | "DESC";
   useIndexes: boolean;
 }
 
@@ -27,7 +27,7 @@ const SearchOptions: React.FC<SearchOptionsProps> = ({ applyChart }) => {
     filter: false,
     filterDate: null,
     order: false,
-    orderType: "asc",
+    orderType: "ASC",
     useIndexes: false,
   });
 
@@ -90,6 +90,8 @@ const SearchOptions: React.FC<SearchOptionsProps> = ({ applyChart }) => {
         onChange={handleChange}
         showOrderOptions
         orderType={options.orderType}
+        // TODO Add order DATE by ASC or DESC
+        // TODO Make a checkbox here
       />
 
       <CheckboxOption

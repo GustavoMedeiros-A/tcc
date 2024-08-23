@@ -11,6 +11,8 @@ import {
   MediumProduct,
 } from './entities/medium.entities';
 import { PostgresSeederService } from 'src/fixtures/postgres-seeder.service';
+import { PostgresService } from './postgres.service';
+import { PostgresController } from './postgres.controller';
 
 @Module({
   imports: [
@@ -41,6 +43,7 @@ import { PostgresSeederService } from 'src/fixtures/postgres-seeder.service';
       MediumProduct,
     ]),
   ],
-  providers: [PostgresSeederService],
+  providers: [PostgresSeederService, PostgresService],
+  controllers: [PostgresController],
 })
 export class PostgresModule {}
