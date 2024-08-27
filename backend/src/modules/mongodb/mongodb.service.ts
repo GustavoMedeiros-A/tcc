@@ -94,7 +94,7 @@ export class MongoDBService {
         totalSystemMemory: convertBytesToGigabytes(totalSystemMemory),
         freeSystemMemory: convertBytesToGigabytes(freeSystemMemory),
       },
-      executionTime: executionTime,
+      executionTime: executionTime / 1000,
     };
   }
 

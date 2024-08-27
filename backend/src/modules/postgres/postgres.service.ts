@@ -97,7 +97,7 @@ export class PostgresService {
         totalSystemMemory: convertBytesToGigabytes(totalSystemMemory),
         freeSystemMemory: convertBytesToGigabytes(freeSystemMemory),
       },
-      executionTime: executionTime,
+      executionTime: executionTime / 1000,
     };
   }
 

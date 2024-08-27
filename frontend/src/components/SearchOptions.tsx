@@ -1,23 +1,13 @@
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles/datapicker.css";
 import Button from "./Button";
 import CheckboxOption from "./CheckboxOption";
 import DataSizeSelection from "./DataSizeSelection";
-
-interface IOptions {
-  dataSize: string;
-  joinLookup: boolean;
-  filter: boolean;
-  filterDate: Date | null;
-  order: boolean;
-  orderType: "ASC" | "DESC";
-  useIndexes: boolean;
-}
+import { IOptions } from "../common/interface";
 
 interface SearchOptionsProps {
-  applyChart: () => void;
+  applyChart: (options: IOptions) => void;
 }
 
 const SearchOptions: React.FC<SearchOptionsProps> = ({ applyChart }) => {
@@ -45,10 +35,9 @@ const SearchOptions: React.FC<SearchOptionsProps> = ({ applyChart }) => {
       filterDate: date,
     }));
   };
+
   const handleSubmit = () => {
-    applyChart();
-    console.log("Opções selecionadas:", options);
-    // Aqui você faria a request para o endpoint
+    applyChart(options);
   };
 
   return (

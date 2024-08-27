@@ -1,3 +1,4 @@
+// TODO ENTENDER PORQUE OS VALORES DE % TÂO VINDO ACIMA DE 100%
 import * as os from 'os';
 
 export function toFixedAndParseFloat(value: number) {

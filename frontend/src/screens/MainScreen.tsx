@@ -2,12 +2,32 @@ import React, { useState } from "react";
 import SearchOptions from "../components/SearchOptions";
 import DescriptionPanel from "../components/DescriptionPanel";
 import PerformanceCharts from "../components/PerformanceCharts";
+import { executeMongoQuery, executePostgresQuery } from "../common/service";
+import { AnalysisInterface, IOptions } from "../common/interface";
 
 const MainScreen: React.FC = () => {
   const [showCharts, setShowCharts] = useState(false);
+  const [chartPostgresData, setChartPostgresData] =
+    useState<AnalysisInterface>();
+  const [chartMongoDBData, setChartMongoDBData] = useState<AnalysisInterface>();
 
-  const handleApplyTest = () => {
-    setShowCharts(true);
+  const sleep = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
+  const handleApplyTest = async (options: IOptions) => {
+    // TODO: USAR APENAS UMA ENDPOINT PRA FAZER ESSES TESTES
+    try {
+      const postgresData = await executePostgresQuery(options);
+
+      await sleep(5000);
+      const mongoData = await executeMongoQuery(options);
+
+      setChartMongoDBData(mongoData);
+      setChartPostgresData(postgresData);
+      setShowCharts(true);
+    } catch (error) {
+      console.error("Error executing query:", error);
+    }
   };
 
   return (
@@ -64,7 +84,10 @@ const MainScreen: React.FC = () => {
               marginTop: "20px",
             }}
           >
-            <PerformanceCharts />
+            <PerformanceCharts
+              postgresData={chartPostgresData}
+              mongoData={chartMongoDBData}
+            />
           </div>
         )}
       </main>

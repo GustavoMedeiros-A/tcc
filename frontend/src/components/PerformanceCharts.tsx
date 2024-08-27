@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { AnalysisInterface } from "../common/interface";
 
 ChartTs.register(
   CategoryScale,
@@ -20,18 +21,35 @@ ChartTs.register(
   Legend
 );
 
-const PerformanceCharts: React.FC = () => {
-  const data = {
+interface PerformanceChartsProps {
+  postgresData?: AnalysisInterface;
+  mongoData?: AnalysisInterface;
+}
+
+const PerformanceCharts: React.FC<PerformanceChartsProps> = ({
+  postgresData,
+  mongoData,
+}) => {
+  // TODO: USAR APENAS UMA ENDPOINT PRA FAZER ESSES TESTES
+  const createChart = {
     labels: ["CPU Usage", "Memory Usage", "Response Time"],
     datasets: [
       {
         label: "MongoDB",
-        data: [65, 59, 80],
+        data: [
+          mongoData?.cpuUsage.percent,
+          mongoData?.memoryUsage.percentUsed,
+          mongoData?.executionTime,
+        ],
         backgroundColor: "#00FF00",
       },
       {
         label: "PostgreSQL",
-        data: [70, 48, 60],
+        data: [
+          postgresData?.cpuUsage.percent,
+          postgresData?.memoryUsage.percentUsed,
+          postgresData?.executionTime,
+        ],
         backgroundColor: "#FFA500",
       },
     ],
@@ -52,7 +70,7 @@ const PerformanceCharts: React.FC = () => {
 
   return (
     <div style={{ width: "80%", margin: "auto", paddingTop: "20px" }}>
-      <Bar data={data} options={options} />
+      <Bar data={createChart} options={options} />
     </div>
   );
 };
