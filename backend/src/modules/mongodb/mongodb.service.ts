@@ -1,11 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { SmallOrder } from './entities/small.entities';
-import { MediumOrder } from './entities/medium.entities';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Order } from './schemas/order.schema';
 import { IOption } from '../interfaces/IOptions.interface';
 import * as os from 'os';
-import { AnalysisDTO } from '../dtos/analysis.dto';
 import {
   calculateCpuPercent,
   calculateTotalCpuUsage,
@@ -16,14 +14,14 @@ import {
   convertBytesToGigabytes,
   toFixedAndParseFloat,
 } from '../utils';
+import { AnalysisDTO } from '../dtos/analysis.dto';
 
 @Injectable()
-export class PostgresService {
+export class MongoDBService {
+  private productModelName: string;
   constructor(
-    @InjectRepository(SmallOrder)
-    private smallOrderRepository: Repository<SmallOrder>,
-    @InjectRepository(MediumOrder)
-    private mediumOrderRepository: Repository<MediumOrder>,
+    @InjectModel('SmallOrder') private smallOrderModel: Model<Order>,
+    @InjectModel('MediumOrder') private mediumOrderModel: Model<Order>,
   ) {}
 
   async executeQuery(options: IOption): Promise<AnalysisDTO> {
@@ -31,28 +29,27 @@ export class PostgresService {
     const startMemoryUsage = process.memoryUsage();
     const startTime = Date.now();
 
-    const { orderRepository } = this.getRepositories(options.dataSize);
+    const orderModel = this.getOrderModel(options.dataSize);
 
-    const query = orderRepository.createQueryBuilder('order');
-    query.innerJoinAndSelect('order.items', 'orderItem');
+    const query = orderModel.find();
 
     if (options.joinLookup) {
-      query.innerJoinAndSelect('orderItem.product', 'product');
-    }
-    if (options.filter && options.filterDate) {
-      query.where('order.date >= :filterDate', {
-        filterDate: options.filterDate,
+      query.populate({
+        path: 'itens.product',
+        model: this.productModelName,
       });
     }
 
-    if (options.order) {
-      query.orderBy('order.date', options.orderType);
+    if (options.filter && options.filterDate) {
+      query.where({ date: { $gte: options.filterDate } });
     }
 
-    // TODO: think abount index
-    const results = await query.getMany();
+    if (options.order) {
+      query.sort({ date: options.orderType === 'ASC' ? 1 : -1 });
+    }
+    const results = await query.exec();
 
-    if (results.length == 0) {
+    if (results.length === 0) {
       throw new NotFoundException('Not found data to analyze');
     }
 
@@ -101,22 +98,17 @@ export class PostgresService {
     };
   }
 
-  private getRepositories(dataSize: string) {
+  private getOrderModel(dataSize: string): Model<Order> {
     switch (dataSize) {
       case 'small':
-        return {
-          orderRepository: this.smallOrderRepository,
-        };
+        this.productModelName = 'SmallProduct';
+        return this.smallOrderModel;
       case 'medium':
-        return {
-          orderRepository: this.mediumOrderRepository,
-        };
+        this.productModelName = 'MediumProduct';
+        return this.mediumOrderModel;
       //   case 'large':
-      //     return {
-      //       orderRepository: this.largeOrderRepository,
-      //       productRepository: this.largeProductRepository,
-      //       orderItemRepository: this.largeOrderItemRepository,
-      //     };
+      //   this.productModelName = 'LargeProduct'
+      //     return this.largeOrderModel;
       default:
         throw new Error('Invalid data size');
     }

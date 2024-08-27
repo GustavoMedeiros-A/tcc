@@ -7,7 +7,7 @@ export class PostgresController {
   constructor(private readonly postgresService: PostgresService) {}
 
   @Post('execute')
-  async executeQuery(@Body() options: IOption) {
+  async execute(@Body() options: IOption) {
     return this.postgresService.executeQuery(options);
   }
 }

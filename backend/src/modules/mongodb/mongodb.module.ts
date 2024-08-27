@@ -5,6 +5,8 @@ import { OrderSchema } from './schemas/order.schema';
 import { ProductSchema } from './schemas/product.schema';
 import { OrderItemSchema } from './schemas/order-item.schema';
 import { MongoSeederService } from 'src/fixtures/mongo-seeder.service';
+import { MongoDBService } from './mongodb.service';
+import { MongoDBController } from './mongodb.controller';
 
 const createMongooseFeatures = (
   namePrefix: string,
@@ -35,6 +37,7 @@ const createMongooseFeatures = (
       ...createMongooseFeatures('Large', 'large'),
     ]),
   ],
-  providers: [MongoSeederService],
+  providers: [MongoSeederService, MongoDBService],
+  controllers: [MongoDBController],
 })
 export class MongoDBModule {}
