@@ -20,3 +20,13 @@ export const executeMongoQuery = async (options: IOptions): Promise<any> => {
     throw new Error(err);
   }
 };
+
+export const executeQueries = async (options: IOptions): Promise<any> => {
+  try {
+    const response = await apiInstance.post("/analizyer/execute", options);
+    return response.data;
+  } catch (err: any) {
+    console.log(err);
+    throw new Error(err);
+  }
+};

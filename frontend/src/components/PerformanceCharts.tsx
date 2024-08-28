@@ -3,6 +3,8 @@ import React from "react";
 import {
   BarElement,
   CategoryScale,
+  ChartData,
+  ChartOptions,
   Chart as ChartTs,
   Legend,
   LinearScale,
@@ -10,7 +12,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { AnalysisInterface } from "../common/interface";
+import { AnalysisInterface, ExecutionInterface } from "../common/interface";
 
 ChartTs.register(
   CategoryScale,
@@ -22,14 +24,10 @@ ChartTs.register(
 );
 
 interface PerformanceChartsProps {
-  postgresData?: AnalysisInterface;
-  mongoData?: AnalysisInterface;
+  data?: ExecutionInterface;
 }
 
-const PerformanceCharts: React.FC<PerformanceChartsProps> = ({
-  postgresData,
-  mongoData,
-}) => {
+const PerformanceCharts: React.FC<PerformanceChartsProps> = ({ data }) => {
   // TODO: USAR APENAS UMA ENDPOINT PRA FAZER ESSES TESTES
   const createChart = {
     labels: ["CPU Usage", "Memory Usage", "Response Time"],
@@ -37,25 +35,25 @@ const PerformanceCharts: React.FC<PerformanceChartsProps> = ({
       {
         label: "MongoDB",
         data: [
-          mongoData?.cpuUsage.percent,
-          mongoData?.memoryUsage.percentUsed,
-          mongoData?.executionTime,
+          data?.mongoData?.cpuUsage.percent,
+          data?.mongoData.memoryUsage.percentUsed,
+          data?.mongoData.executionTime,
         ],
         backgroundColor: "#00FF00",
       },
       {
         label: "PostgreSQL",
         data: [
-          postgresData?.cpuUsage.percent,
-          postgresData?.memoryUsage.percentUsed,
-          postgresData?.executionTime,
+          data?.postgresData?.cpuUsage.percent,
+          data?.postgresData?.memoryUsage.percentUsed,
+          data?.postgresData?.executionTime,
         ],
         backgroundColor: "#FFA500",
       },
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"bar"> = {
     responsive: true,
     plugins: {
       legend: {
@@ -64,6 +62,14 @@ const PerformanceCharts: React.FC<PerformanceChartsProps> = ({
       title: {
         display: true,
         text: "Database Performance Metrics",
+      },
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          label: function (tooltipItem) {
+            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}%`;
+          },
+        },
       },
     },
   };

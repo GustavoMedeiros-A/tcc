@@ -12,8 +12,8 @@ const descriptions = {
     "Permite filtrar os registros retornados pela consulta com base em uma data específica.",
   order:
     "A ordenação dos resultados pode ser ascendente ou descendente, e é baseada nos dados filtrados, normalmente por data.",
-  useIndexes:
-    "Usar índices previamente configurados para acelerar as consultas, melhorando a performance especialmente em grandes volumes de dados.",
+  // useIndexes:
+  //   "Usar índices previamente configurados para acelerar as consultas, melhorando a performance especialmente em grandes volumes de dados.",
 };
 
 const DescriptionPanel: React.FC = () => {
@@ -48,9 +48,9 @@ const DescriptionPanel: React.FC = () => {
       <p style={{ color: "#aaa", marginBottom: "10px" }}>
         <strong>Ordenação:</strong> {descriptions.order}
       </p>
-      <p style={{ color: "#aaa", marginBottom: "10px" }}>
+      {/* <p style={{ color: "#aaa", marginBottom: "10px" }}>
         <strong>Uso de Índices:</strong> {descriptions.useIndexes}
-      </p>
+      </p> */}
     </div>
   );
 };

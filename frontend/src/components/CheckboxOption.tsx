@@ -24,7 +24,7 @@ const CheckboxOption: React.FC<CheckboxOptionProps> = ({
   filterDate = null,
   onDateChange,
   showOrderOptions = false,
-  orderType = "asc",
+  orderType = "ASC",
 }) => {
   return (
     <div style={{ marginBottom: "20px" }}>
@@ -59,8 +59,8 @@ const CheckboxOption: React.FC<CheckboxOptionProps> = ({
             <input
               type="radio"
               name="orderType"
-              value="asc"
-              checked={orderType === "asc"}
+              value="ASC"
+              checked={orderType === "ASC"}
               onChange={onChange}
             />{" "}
             Ascendente
@@ -69,8 +69,8 @@ const CheckboxOption: React.FC<CheckboxOptionProps> = ({
             <input
               type="radio"
               name="orderType"
-              value="desc"
-              checked={orderType === "desc"}
+              value="DESC"
+              checked={orderType === "DESC"}
               onChange={onChange}
             />{" "}
             Descendente

@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SmallOrder } from './entities/small.entities';
 import { MediumOrder } from './entities/medium.entities';
-import { IOption } from '../interfaces/IOptions.interface';
+import { IOption } from '../../interfaces/IOptions.interface';
 import * as os from 'os';
-import { AnalysisDTO } from '../dtos/analysis.dto';
+import { AnalysisDTO } from '../../dtos/analysis.dto';
 import {
   calculateCpuPercent,
   calculateTotalCpuUsage,
@@ -28,6 +28,7 @@ export class PostgresService {
 
   async executeQuery(options: IOption): Promise<AnalysisDTO> {
     const startCpuUsage = process.cpuUsage();
+    console.log('startCpuUsage', startCpuUsage);
     const startMemoryUsage = process.memoryUsage();
     const startTime = Date.now();
 
@@ -58,6 +59,8 @@ export class PostgresService {
 
     const endTime = Date.now();
     const executionTime = endTime - startTime;
+
+    console.log('Execution time: ' + executionTime);
 
     const endCpuUsage = process.cpuUsage(startCpuUsage);
     const endMemoryUsage = process.memoryUsage();

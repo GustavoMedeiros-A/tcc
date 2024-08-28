@@ -12,7 +12,6 @@ import {
 } from './entities/medium.entities';
 import { PostgresSeederService } from 'src/fixtures/postgres-seeder.service';
 import { PostgresService } from './postgres.service';
-import { PostgresController } from './postgres.controller';
 
 @Module({
   imports: [
@@ -44,6 +43,7 @@ import { PostgresController } from './postgres.controller';
     ]),
   ],
   providers: [PostgresSeederService, PostgresService],
-  controllers: [PostgresController],
+  controllers: [],
+  exports: [TypeOrmModule],
 })
 export class PostgresModule {}

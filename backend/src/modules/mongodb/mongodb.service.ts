@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order } from './schemas/order.schema';
-import { IOption } from '../interfaces/IOptions.interface';
+import { IOption } from '../../interfaces/IOptions.interface';
 import * as os from 'os';
 import {
   calculateCpuPercent,
@@ -14,7 +14,7 @@ import {
   convertBytesToGigabytes,
   toFixedAndParseFloat,
 } from '../utils';
-import { AnalysisDTO } from '../dtos/analysis.dto';
+import { AnalysisDTO } from '../../dtos/analysis.dto';
 
 @Injectable()
 export class MongoDBService {

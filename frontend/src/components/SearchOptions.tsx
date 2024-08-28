@@ -79,16 +79,14 @@ const SearchOptions: React.FC<SearchOptionsProps> = ({ applyChart }) => {
         onChange={handleChange}
         showOrderOptions
         orderType={options.orderType}
-        // TODO Add order DATE by ASC or DESC
-        // TODO Make a checkbox here
       />
 
-      <CheckboxOption
+      {/* <CheckboxOption
         label="Usar índices configurados"
         name="useIndexes"
         checked={options.useIndexes}
         onChange={handleChange}
-      />
+      /> */}
 
       <Button
         label="Aplicar Teste"

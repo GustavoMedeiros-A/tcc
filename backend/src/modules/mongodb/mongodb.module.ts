@@ -6,7 +6,6 @@ import { ProductSchema } from './schemas/product.schema';
 import { OrderItemSchema } from './schemas/order-item.schema';
 import { MongoSeederService } from 'src/fixtures/mongo-seeder.service';
 import { MongoDBService } from './mongodb.service';
-import { MongoDBController } from './mongodb.controller';
 
 const createMongooseFeatures = (
   namePrefix: string,
@@ -38,6 +37,6 @@ const createMongooseFeatures = (
     ]),
   ],
   providers: [MongoSeederService, MongoDBService],
-  controllers: [MongoDBController],
+  exports: [MongooseModule],
 })
 export class MongoDBModule {}

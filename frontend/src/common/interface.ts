@@ -23,3 +23,8 @@ export interface AnalysisInterface {
   };
   executionTime: number; // ms
 }
+
+export interface ExecutionInterface {
+  postgresData: AnalysisInterface;
+  mongoData: AnalysisInterface;
+}
