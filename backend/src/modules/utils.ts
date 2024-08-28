@@ -27,7 +27,6 @@ export function calculateCpuPercent(
   executionTime: number,
 ): number {
   const numberOfCores = os.cpus().length;
-  console.log('numberOfCores', numberOfCores);
   return (totalCpuUsage / (executionTime * 1000 * numberOfCores)) * 100;
 }
 

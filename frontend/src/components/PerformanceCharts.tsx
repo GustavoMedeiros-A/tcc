@@ -67,7 +67,13 @@ const PerformanceCharts: React.FC<PerformanceChartsProps> = ({ data }) => {
         enabled: true,
         callbacks: {
           label: function (tooltipItem) {
-            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}%`;
+            const label = tooltipItem.dataset.label || "";
+            const value = tooltipItem.raw;
+            if (tooltipItem.dataIndex === 2) {
+              return `${label}: ${value} ms`;
+            } else {
+              return `${label}: ${value}%`;
+            }
           },
         },
       },
